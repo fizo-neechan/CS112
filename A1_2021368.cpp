@@ -13,6 +13,10 @@ struct Book
     int ID, price, pages;
     string BookName, author, ISBN;
 
+    /**
+     * @brief prints the details of book
+     * 
+     */
     void PrintBook() {
         cout << "\nID: " << ID << "\nBook name: " << BookName
             << "\nAuthor: " << author << "\nISBN: " << ISBN
@@ -25,6 +29,12 @@ struct BookList
     Book books[5];
     int numberOfBooks = 0;
 
+    /**
+     * @brief finds ID of book stored and returns its index 
+     * 
+     * @param ID Book ID to find
+     * @return returns index if book found, else returns 10
+     */
     int FindBookIndex(int ID) {
         for (int i = 0; i < numberOfBooks; i++) {
             if (books[i].ID == ID)
@@ -33,6 +43,11 @@ struct BookList
         return 10;
     }
 
+    /**
+     * @brief prints all books in the system
+     * 
+     * @param bookslist_local book list currently stored in system
+     */
     void PrintAll(Book bookslist_local[]) {
         for (int i = 0; i < numberOfBooks; i++) {
             bookslist_local[i].PrintBook();
@@ -40,6 +55,11 @@ struct BookList
         }
     }
 
+    /**
+     * @brief prints info for specified book ID
+     * 
+     * @param ID ID to print
+     */
     void PrintSpecifiedBook(int ID) {
         int bookIndex = FindBookIndex(ID);
         if (bookIndex != 10)
@@ -48,10 +68,15 @@ struct BookList
             cout << "BOOK NOT FOUND!\n";
     }
 
+    /**
+     * @brief prints books in order of ID
+     * 
+     * @param ascending_descending 1 means ascending order, and 0 means descending order
+     */
     void PrintSortedBooks(bool ascending_descending) {
         for (int i = 0; i < numberOfBooks; i++) {
             for (int j = 0; j < numberOfBooks - 1; j++) {
-                if (ascending_descending == 1) {
+                if (ascending_descending) {
                     if (books[j].ID > books[j + 1].ID)
                         swap(books[j], books[j+1]);
                 }
@@ -66,6 +91,10 @@ struct BookList
         PrintAll(books);
     }
 
+    /**
+     * @brief adds a book into the system if book doesnt exist and limit has not been exceeded.
+     * 
+     */
     void AddBook() {
         int BookID;
         cout << "FOR BOOK " << numberOfBooks + 1 << endl;
@@ -90,6 +119,10 @@ struct BookList
         numberOfBooks++;
     }
 
+    /**
+     * @brief deleted specified book
+     * 
+     */
     void DeleteBook() {
         int ID_toBeDeleted;
         cout << "Enter ID to be deleted: ";
@@ -107,7 +140,12 @@ struct BookList
         numberOfBooks--;
     }
 
-    // NO USE FOR THIS FUNCTION
+    /**
+     * @brief adds book to specified index i
+     * function not used
+     * 
+     * @param i index
+     */
     void AddBook_SpecificIndex(int i){
         int BookID;
         cout << "FOR BOOK " << numberOfBooks + 1 << endl;
@@ -137,6 +175,10 @@ struct Student {
     int ID, RollNo;
     string StdName;
 
+    /**
+     * @brief prints details of student instance
+     * 
+     */
     void PrintStudent() {
         cout << "\nID: " << ID << "\nStudent name: " << StdName
             << "\nRoll No: " << RollNo << endl;
@@ -149,13 +191,25 @@ struct StudentList {
 
     // these functions are copy pasted as is from the booksList structure with names changed
 
-    void PrintAll(Student bookslist_local[]) {
+
+    /**
+     * @brief prints all students in the system
+     * 
+     * @param Studentslist_local list of students in the system
+     */
+    void PrintAll(Student Studentslist_local[]) {
         for (int i = 0; i < numberOfStudents; i++) {
-            bookslist_local[i].PrintStudent();
+            Studentslist_local[i].PrintStudent();
             cout << endl;
         }
     }
 
+    /**
+     * @brief finds index of student if ID exists in system
+     * 
+     * @param ID student ID to find
+     * @return returns index if student exists else returns 10
+     */
     int FindStdIndex(int ID) {
         for (int i = 0; i < numberOfStudents; i++) {
             if (students[i].ID == ID)
@@ -164,13 +218,17 @@ struct StudentList {
         return 10;
     }
 
+    /**
+     * @brief adds a student into system if his ID doesnt exist and limit not exceeded
+     * 
+     */
     void AddStudent() {
         cout << "FOR STUDENT " << numberOfStudents + 1 << endl;
         int ID;
         cout << "\tEnter ID: ";
         cin >> ID;
         if(FindStdIndex(ID) != 10){
-            cout << "Student ID cannot be found!\n";
+            cout << "Student already exists\n";
             return;
         }
         students[numberOfStudents].ID = ID;
@@ -182,6 +240,10 @@ struct StudentList {
         numberOfStudents++;
     }
 
+    /**
+     * @brief deletes specified student wrt ID
+     * 
+     */
     void DeleteStudent() {
         int ID_toBeDeleted;
         cout << "Enter ID to be deleted: ";
@@ -199,6 +261,11 @@ struct StudentList {
     }
 };
 
+/**
+ * @brief GUI
+ * 
+ * @return returns option selected
+ */
 int Menu() {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     char key_press;
@@ -320,19 +387,17 @@ int Menu() {
     }
 }
 
+/**
+ * @brief colourful loading bar
+ * 
+ */
 void Loading(){
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    // mciSendString("open \"Loading_Sound.mp3\" type mpegvideo alias mp3", NULL, 0, NULL);
     cout<<"\a";
     system("CLS");
-    // SetConsoleTextAttribute(hConsole, 15);
-    // PlaySound(TEXT("Added_Student.wav"), GetModuleHandle(NULL), SND_FILENAME | SND_ASYNC);
-    // mciSendString(TEXT("Added_Student.wav"), NULL, 0, NULL);
     cout << "\n\n\n\n\n\tLoading...\n";
-    // mciSendString("play mp3", NULL, 0, NULL);
     for(int i = 0; i< 10; i++){
-        Beep(1500, 150);
-        Sleep(50);
+        Sleep(150);
         SetConsoleTextAttribute(hConsole, 20 + (15*i));
         cout << "  ";
         SetConsoleTextAttribute(hConsole, 8);
